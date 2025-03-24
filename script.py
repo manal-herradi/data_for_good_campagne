@@ -21,8 +21,22 @@ try:
         "Filtrer par niveau de stress hydrique", stress_levels, default=stress_levels
     )
 
-    # Appliquer le filtre
+    # Champs de filtrage par nom et prénom
+    nom_filter = st.sidebar.text_input("Filtrer par nom du député")
+    prenom_filter = st.sidebar.text_input("Filtrer par prénom du député")
+
+    # Appliquer les filtres
     filtered_df = df[df["water_stress_level"].isin(selected_stress)]
+
+    if nom_filter:
+        filtered_df = filtered_df[
+            filtered_df["deputy_lastname"].str.contains(nom_filter, case=False, na=False)
+        ]
+    
+    if prenom_filter:
+        filtered_df = filtered_df[
+            filtered_df["deputy_firstname"].str.contains(prenom_filter, case=False, na=False)
+        ]
 
     # --- 3️⃣ AFFICHAGE DU TABLEAU ---
     st.write("🔍 Tableau des députés :")
